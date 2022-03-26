@@ -7,7 +7,7 @@ from pipeline import Trainer
 from callback import TimeCallback
 
 import torch
-from torch import transforms
+from torchvision import transforms
 from torchvision.datasets import CIFAR10
 from torchvision.models import resnet18
 from torch.utils.data import DataLoader
@@ -71,9 +71,9 @@ def main(num_layer, GPU_type):
 if __name__ == '__main__':
 
     parser = argparse.ArgumentParser(description='Train CIFAR10 on different GPU.')
-    parser.add_argument('num_layer', type=int,
+    parser.add_argument('--num_layer', type=int,
                         help='an integer in [18|20|32|44|56]')
-    parser.add_argument('GPU_type', type=str,
+    parser.add_argument('--GPU_type', type=str,
                         help='GPU_type: [K80|V100|A100]')
     args = parser.parse_args()
 
