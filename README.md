@@ -22,5 +22,7 @@ $ git push -u origin master
 | V100   | Kuo  | Kuo  | Kuo  | Lin  | Lin  |
 | A100   | Josh | Josh | Josh | Wu   | Wu   |
 
+Basically Kuo and Lin have to use V100 to train the model; Josh and Wu have to use A100. I suggest using VertexAI workbench provided by GCP.
+
 
 
