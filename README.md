@@ -22,6 +22,6 @@ $ git push -u origin master
 | P100   | Kuo  | Kuo  | Kuo  | Lin  | Lin  |
 | A100   | Josh | Josh | Josh | Wu   | Wu   |
 
-Basically Kuo and Lin have to use V100 to train the model; Josh and Wu have to use A100. I suggest using VertexAI workbench provided by GCP. The google cloud setup is provided in `Google Cloud Setup.pdf`
+Basically Kuo and Lin have to use P100 to train the model; Josh and Wu have to use A100. I suggest using VertexAI workbench provided by GCP. The google cloud setup is provided in `Google Cloud Setup.pdf`
 
 
