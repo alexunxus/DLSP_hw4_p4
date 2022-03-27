@@ -1,3 +1,4 @@
+from cv2 import threshold
 import numpy as np
 import torch
 from time import time 
@@ -120,4 +121,27 @@ class TimeCallback:
     def on_epoch_end(self):
         self.ref_trainer.time_history.append(time() - self.t_start)
         return True
+
+class TimeToAccuracyCallback:
+
+    def __init__(self,
+                 monitor="acc",
+                 threshold=0.92):
+        self.monitor  = monitor
+        self.threshold = threshold
+        self.ref_trainer = None
+        
+    def hook_on_trainer(self, trainer):
+        self.ref_trainer = trainer
+        if self.monitor not in trainer.history.keys():
+            raise ValueError(f"Unseen monitor criterion {self.monitor}")
     
+    def on_epoch_begin(self):
+        pass
+    
+    def on_epoch_end(self):
+        latest = self.ref_trainer.history[self.monitor][-1]
+        if latest >= self.threshold:
+            print(f"The model has reach {self.threshold} {self.monitor}, stopping......")
+            return False
+        return True

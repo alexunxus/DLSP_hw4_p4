@@ -4,12 +4,12 @@ from metric import acc
 
 from pipeline import Trainer
 
-from callback import TimeCallback
+from callback import TimeCallback, TimeToAccuracyCallback
 
 import torch
 from torchvision import transforms
 from torchvision.datasets import CIFAR10
-from torchvision.models import resnet18
+from torchvision.models import resnet18, resnet50
 from torch.utils.data import DataLoader
 import argparse
 import torch.backends.cudnn as cudnn
@@ -18,6 +18,7 @@ models = {
     18: resnet18,
     20: resnet20,
     32: resnet32,
+    50: resnet50,
     44: resnet44,
     56: resnet56,
 }
@@ -26,7 +27,7 @@ models = {
 ## accelerate computation
 cudnn.benchmark = True
 
-def main(num_layer, GPU_type):
+def main(num_layer, GPU_type, toaccuracy=False):
     
     ## Train with different resnet and GPU type
     epochs = 350
@@ -61,6 +62,9 @@ def main(num_layer, GPU_type):
     criterion = torch.nn.CrossEntropyLoss()
 
     callbacks = [TimeCallback()]
+    if toaccuracy:
+        callbacks.append(TimeToAccuracyCallback(monitor='acc', threshold=0.92))
+    
     trainer = Trainer(train_loader, model,criterion= criterion, optim=optimizer, scheduler=scheduler, 
                     nclass = nclass, epochs=epochs, metric_fns=metrics, val_loader=None, 
                     log_path=log_path, callbacks=callbacks)
@@ -72,14 +76,14 @@ if __name__ == '__main__':
 
     parser = argparse.ArgumentParser(description='Train CIFAR10 on different GPU.')
     parser.add_argument('--num_layer', type=int,
-                        help='an integer in [18|20|32|44|56]')
+                        help='an integer in [18|20|32|44|50|56]')
     parser.add_argument('--GPU_type', type=str,
                         help='GPU_type: [K80|P100|A100]')
     args = parser.parse_args()
 
-    if args.num_layer not in [18, 20, 32, 44, 56]:
-        raise ValueError(f"{args.num_layer} not in [18|20|32|44|56]")
+    if args.num_layer not in [18, 20, 32, 44, 50, 56]:
+        raise ValueError(f"{args.num_layer} not in [18|20|32|44|50|56]")
     if args.GPU_type  not in ['K80','P100','A100']:
         raise ValueError(f"{args.GPU_type} not in [K80|P100|A100]")
 
-    main(args.num_layer, args.GPU_type)
+    main(args.num_layer, args.GPU_type, toaccuracy = False)
