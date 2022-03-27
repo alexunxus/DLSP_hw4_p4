@@ -74,12 +74,12 @@ if __name__ == '__main__':
     parser.add_argument('--num_layer', type=int,
                         help='an integer in [18|20|32|44|56]')
     parser.add_argument('--GPU_type', type=str,
-                        help='GPU_type: [K80|V100|A100]')
+                        help='GPU_type: [K80|P100|A100]')
     args = parser.parse_args()
 
     if args.num_layer not in [18, 20, 32, 44, 56]:
         raise ValueError(f"{args.num_layer} not in [18|20|32|44|56]")
-    if args.GPU_type  not in ['K80','V100','A100']:
-        raise ValueError(f"{args.GPU_type} not in [K80|V100|A100]")
+    if args.GPU_type  not in ['K80','P100','A100']:
+        raise ValueError(f"{args.GPU_type} not in [K80|P100|A100]")
 
     main(args.num_layer, args.GPU_type)
