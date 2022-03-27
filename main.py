@@ -27,7 +27,7 @@ models = {
 ## accelerate computation
 cudnn.benchmark = True
 
-def main(num_layer, GPU_type, toaccuracy=False):
+def main(num_layer, GPU_type, toaccuracy=-1):
     
     ## Train with different resnet and GPU type
     epochs = 350
@@ -62,7 +62,8 @@ def main(num_layer, GPU_type, toaccuracy=False):
     criterion = torch.nn.CrossEntropyLoss()
 
     callbacks = [TimeCallback()]
-    if toaccuracy:
+    if toaccuracy != -1:
+        # The training will stop when it reach accuracy 0.92
         callbacks.append(TimeToAccuracyCallback(monitor='acc', threshold=0.92))
     
     trainer = Trainer(train_loader, model,criterion= criterion, optim=optimizer, scheduler=scheduler, 
@@ -86,4 +87,4 @@ if __name__ == '__main__':
     if args.GPU_type  not in ['K80','P100','A100']:
         raise ValueError(f"{args.GPU_type} not in [K80|P100|A100]")
 
-    main(args.num_layer, args.GPU_type, toaccuracy = False)
+    main(args.num_layer, args.GPU_type, toaccuracy = -1)
