@@ -1,4 +1,3 @@
-from cv2 import threshold
 import numpy as np
 import torch
 from time import time 
