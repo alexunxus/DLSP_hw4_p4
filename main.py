@@ -52,7 +52,9 @@ def main(num_layer, GPU_type, toaccuracy=-1):
     }
 
     train_dataset = CIFAR10("./cifar10/", train=True  ,download=True, transform=data_transforms['train'])
-    train_loader = DataLoader(train_dataset, batch_size, shuffle=True, pin_memory=True, num_workers=4)
+    valid_dataset = CIFAR10("./cifar10/", train=False ,download=True, transform=data_transforms['valid'])
+    train_loader = DataLoader(train_dataset, batch_size, shuffle=True,  pin_memory=True, num_workers=4)
+    valid_loader = DataLoader(valid_dataset, batch_size, shuffle=False, pin_memory=True, num_workers=4)
 
     model = models[num_layer]()
     optimizer = torch.optim.SGD(model.parameters(), lr=lr, momentum=moment)
@@ -66,8 +68,9 @@ def main(num_layer, GPU_type, toaccuracy=-1):
         callbacks.append(TimeToAccuracyCallback(monitor='val_acc', threshold=toaccuracy))
     
     trainer = Trainer(train_loader, model,criterion= criterion, optim=optimizer, scheduler=scheduler, 
-                    nclass = nclass, epochs=epochs, metric_fns=metrics, val_loader=None, 
-                    log_path=log_path, callbacks=callbacks)
+                     nclass = nclass, epochs=epochs, metric_fns=metrics, 
+                     val_loader=None if toaccuracy==-1 else valid_loader, 
+                     log_path=log_path, callbacks=callbacks)
 
     trainer.fit()
 
