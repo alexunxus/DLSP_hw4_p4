@@ -1,3 +1,4 @@
+import numpy as np
 from model import resnet20, resnet32, resnet44, resnet56, resnet18, resnet50
 
 from metric import acc
@@ -25,6 +26,8 @@ models = {
 
 ## accelerate computation
 cudnn.benchmark = True
+torch.manual_seed(0)
+np.random.seed(0)
 
 def main(num_layer, GPU_type, toaccuracy=-1):
     
