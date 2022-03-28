@@ -141,6 +141,6 @@ class TimeToAccuracyCallback:
     def on_epoch_end(self):
         latest = self.ref_trainer.history[self.monitor][-1]
         if latest >= self.threshold:
-            print(f"The model has reach {self.threshold} {self.monitor}, stopping......")
+            print(f"The model has reach {self.threshold} on {self.monitor}, stopping......")
             return False
         return True

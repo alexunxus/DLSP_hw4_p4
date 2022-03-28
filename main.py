@@ -63,7 +63,7 @@ def main(num_layer, GPU_type, toaccuracy=-1):
     callbacks = [TimeCallback()]
     if toaccuracy != -1:
         # The training will stop when it reach accuracy 0.92
-        callbacks.append(TimeToAccuracyCallback(monitor='acc', threshold=0.92))
+        callbacks.append(TimeToAccuracyCallback(monitor='val_acc', threshold=toaccuracy))
     
     trainer = Trainer(train_loader, model,criterion= criterion, optim=optimizer, scheduler=scheduler, 
                     nclass = nclass, epochs=epochs, metric_fns=metrics, val_loader=None, 
@@ -79,14 +79,14 @@ if __name__ == '__main__':
                         help='an integer in [18|20|32|44|50|56]')
     parser.add_argument('--GPU_type', type=str,
                         help='GPU_type: [K80|P100|A100]')
-    parser.add_argument('--toacc', type=int, default=-1,
-                        help="train until accuracy reach a specific accuracy")
+    parser.add_argument('--toacc', type=float, default=-1,
+                        help="train until accuracy(float) reach a specific accuracy")
     args = parser.parse_args()
 
     if args.num_layer not in [18, 20, 32, 44, 50, 56]:
         raise ValueError(f"{args.num_layer} not in [18|20|32|44|50|56]")
     if args.GPU_type  not in ['K80','P100','A100']:
         raise ValueError(f"{args.GPU_type} not in [K80|P100|A100]")
-    if args.toacc < -1 or args.toacc > 100:
+    if args.toacc < -1 or args.toacc > 1.0:
         raise ValueError(f"Invalid accuracy {args.toacc}")
     main(args.num_layer, args.GPU_type, toaccuracy = args.toacc)
