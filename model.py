@@ -114,7 +114,7 @@ class CustomResNet(nn.Module):
     def __init__(self, basemodel, num_classes = 10):
         super().__init__()
         self.backbone = basemodel(pretrained=False)
-        self.backbone.fc = nn.Linear(in_features=2048, out_features=num_classes, bias=True)
+        self.backbone.fc = nn.Linear(in_features=self.backbone.fc.in_features, out_features=num_classes, bias=True)
         nn.init.kaiming_normal_(self.backbone.fc.weight)
     
     def forward(self, x):
