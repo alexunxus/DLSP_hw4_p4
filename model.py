@@ -1,6 +1,7 @@
 from torch import nn 
 from torch.nn import init 
 import torch.nn.functional as F
+import torchvision
 
 # network copied from https://github.com/akamaster/pytorch_resnet_cifar10/blob/master/resnet.py
 
@@ -107,3 +108,22 @@ def resnet110():
 
 def resnet1202():
     return ResNet(BasicBlock, [200, 200, 200])
+
+class CustomResNet(nn.Module):
+    
+    def __init__(self, basemodel, num_classes = 10):
+        super().__init__()
+        self.backbone = basemodel(pretrained=False)
+        self.backbone.fc = nn.Linear(in_features=2048, out_features=num_classes, bias=True)
+        nn.init.kaiming_normal_(self.backbone.fc.weight)
+    
+    def forward(self, x):
+        return self.backbone(x)
+
+
+def resnet18():
+    return CustomResNet(torchvision.models.resnet18, 10)
+
+def resnet50():
+    return CustomResNet(torchvision.models.resnet50, 10)
+    

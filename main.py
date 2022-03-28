@@ -1,4 +1,4 @@
-from model import resnet20, resnet32, resnet44, resnet56
+from model import resnet20, resnet32, resnet44, resnet56, resnet18, resnet50
 
 from metric import acc
 
@@ -9,7 +9,6 @@ from callback import TimeCallback, TimeToAccuracyCallback
 import torch
 from torchvision import transforms
 from torchvision.datasets import CIFAR10
-from torchvision.models import resnet18, resnet50
 from torch.utils.data import DataLoader
 import argparse
 import torch.backends.cudnn as cudnn
