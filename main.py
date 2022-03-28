@@ -87,7 +87,6 @@ if __name__ == '__main__':
         raise ValueError(f"{args.num_layer} not in [18|20|32|44|50|56]")
     if args.GPU_type  not in ['K80','P100','A100']:
         raise ValueError(f"{args.GPU_type} not in [K80|P100|A100]")
-
     if args.toacc < -1 or args.toacc > 100:
         raise ValueError(f"Invalid accuracy {args.toacc}")
     main(args.num_layer, args.GPU_type, toaccuracy = args.toacc)
