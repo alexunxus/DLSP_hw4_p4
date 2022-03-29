@@ -39,3 +39,10 @@ $ screen -r NAME
 # Monitor the training progress
 
 You can simply check `logs/history___.json` to see how many epoch is finished and the corresponding training loss and accuracy. If you want to add validation set to the training pipeline, you can simply add a validation data loader of CIFAR10 and pass it with argument `valid_loader=valid_loader` to the `trainer` class.
+
+# Throughput(step/sec)
+| ResNet | 18     | 20     | 32     | 44     | 50     | 56     |
+|--------|------  |------  |------  |------  |------  |------  |
+| K80    | 16.031 | 17.527 | 11.179 | 8.054  | 6.488  | 6.368  |
+| P100   | Kuo    | Kuo    | Kuo    | 29.371 | Lin    | 20.091 |
+| V100   | Josh   | Josh   | Josh   | 33.279 | Josh   | 32.319 |
