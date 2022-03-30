@@ -45,4 +45,4 @@ You can simply check `logs/history___.json` to see how many epoch is finished an
 |--------|------  |------  |------  |------  |------  |------  |
 | K80    | 16.031 | 17.527 | 11.179 | 8.054  | 6.488  | 6.368  |
 | P100   | Kuo    | Kuo    | Kuo    | 29.371 | Lin    | 20.091 |
-| V100   | Josh   | Josh   | Josh   | 33.279 | Josh   | 32.319 |
+| V100   | 75.108 | 72.825 | 52.376 | 33.279 | 30.986 | 32.319 |
